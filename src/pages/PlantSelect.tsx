@@ -1,15 +1,41 @@
-import React from 'react';
-import {SafeAreaView, View, Text, StyleSheet, FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {SafeAreaView, View, Text, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-import {Header} from '../components/Header';
+import { Header } from '../components/Header';
 import { EnviromentButton } from '../components/EnviromentButton';
+import { PlantCardPrimary } from '../components/PlantCardPrimary';
+
+import api from '../services/api';
+
+interface EnviromentProps{
+    key: string;
+    title: string
+}
+
 
 export default function PlantSelect() {
+
+    const [enviroments, setEnviroments] = useState<EnviromentProps[]>([]);
+
+    useEffect(() => {
+        async function fetchEnviroment(){
+            const { data } = await api.get('plants_environments');
+            setEnviroments([
+                {
+                    key: 'all',
+                    title: 'Todos'
+                },
+                ...data
+            ]);
+        };
+        fetchEnviroment(); 
+    }, [])
+
     return (
         <SafeAreaView style={styles.container}>           
                 <View style={styles.header}>
@@ -23,9 +49,9 @@ export default function PlantSelect() {
                 </View>
                 <View>
                     <FlatList 
-                    data={[1,2,3,4,5,6,7,8,9]} 
+                    data={enviroments} 
                     renderItem={({item})=> (
-                        <EnviromentButton title="Cozinha" active />
+                        <EnviromentButton title={item.title} />
                     )} 
                     horizontal
                     showsHorizontalScrollIndicator={false}
