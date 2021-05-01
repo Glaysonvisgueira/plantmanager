@@ -7,5 +7,7 @@ const api = axios.create({
 
 export default api;
 
+
+//Aula 04 parou em: 34:09:00
 //Comando para ativar json-server:
 //json-server ./src/services/server.json --host 192.168.18.12 --port 3333
