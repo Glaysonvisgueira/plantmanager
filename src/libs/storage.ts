@@ -55,7 +55,7 @@ export async function loadPlant() : Promise<PlantProps[]> {
         .keys(plants)
         .map(plant => {
             return {
-                ...plant[plant].data,
+                ...plants[plant].data,
                 hour: format(new Date(plants[plant].data.dateTimeNotification), 'HH:mm')
             }
         })
